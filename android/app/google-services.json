@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "492190224892",
+    "firebase_url": "https://ctse-quotes.firebaseio.com",
+    "project_id": "ctse-quotes",
+    "storage_bucket": "ctse-quotes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492190224892:android:61494af176529e2deae279",
+        "android_client_info": {
+          "package_name": "com.example.brew_crew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492190224892-86k73ff9hlt4mqs9n479riatl1pat87c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhDCHmXOF4KXo0EmPnWEIosMxhT4PI__U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492190224892-86k73ff9hlt4mqs9n479riatl1pat87c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
