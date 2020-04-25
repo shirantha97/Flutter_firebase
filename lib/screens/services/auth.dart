@@ -1,3 +1,4 @@
+import 'package:brew_crew/screens/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:brew_crew/screens/models/user.dart';
 
@@ -40,6 +41,7 @@ class AuthService {
     try{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+      await DatabaseService(uid: user.uid).updateUserData("Add quotes", "Add author");
       return _userFromFireBaseUser(user);
     }catch(e){
       print(e.toString());

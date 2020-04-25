@@ -18,7 +18,9 @@ class _RegisterState extends State<Register> {
   String email = '';
   String password = '';
   String error = '';
+  String hint = 'Email';
   bool load = false;
+  
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -47,7 +49,7 @@ class _RegisterState extends State<Register> {
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText:'Email'),
+                decoration: textInputDecoration.copyWith(hintText:hint),
                 validator: (val) => val.isEmpty ? 'Enter an Email' : null,
                 onChanged: (val){
                   setState(() {
