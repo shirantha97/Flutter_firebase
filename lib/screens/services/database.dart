@@ -1,3 +1,4 @@
+import 'package:brew_crew/screens/models/quotes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
@@ -15,9 +16,19 @@ class DatabaseService {
     );
   }
 
+  List<Quotes> _quoteListfromSnapshot(QuerySnapshot snapshot){
+    return snapshot.documents.map((doc){
+        return Quotes(
+          quote: doc.data['newQuote'] ?? '',
+          author: doc.data['newAuthor'] ?? ''
+        );
+      }
+    ).toList();
+  }
+
   //stream to collect quotes
-  Stream<QuerySnapshot> get quotes{
-    return quotesCollection.snapshots();
+  Stream<List<Quotes>> get quotes{
+    return quotesCollection.snapshots().map(_quoteListfromSnapshot);
   }
 
 }
