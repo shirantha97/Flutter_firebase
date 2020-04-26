@@ -15,4 +15,9 @@ class DatabaseService {
     );
   }
 
+  //stream to collect quotes
+  Stream<QuerySnapshot> get quotes{
+    return quotesCollection.snapshots();
+  }
+
 }
