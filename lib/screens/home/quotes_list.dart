@@ -1,6 +1,7 @@
 import 'package:brew_crew/screens/home/quote_tile.dart';
 import 'package:brew_crew/screens/models/quotes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class _QuoteListState extends State<QuoteList> {
       itemBuilder: (context,index){
         return QuoteTile(quote: quotes[index]);
       },
+      // scrollDirection: Axis.vertical,
       
     );
   }

@@ -46,6 +46,7 @@ class _UpdateFormState extends State<UpdateForm> {
                     icon: Icon(Icons.delete),
                     onPressed: ()async{
                       await DatabaseService(uid:user.uid).deleteUserData();
+                      await DatabaseService(uid: user.uid).addUserData('NewQuote', 'newAuthor');
                       Navigator.pop(context);
                     }, 
                     label:Text("Delete") 

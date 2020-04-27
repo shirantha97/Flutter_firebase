@@ -17,6 +17,15 @@ class DatabaseService {
     );
   }
 
+  Future addUserData(String quote,String author) async{
+    return await quotesCollection.document(uid).setData(
+      {
+        'quote' : quote,
+        'author' : author
+      }
+    );
+  }
+
   Future deleteUserData() async{
     return await quotesCollection.document(uid).delete();
   }
