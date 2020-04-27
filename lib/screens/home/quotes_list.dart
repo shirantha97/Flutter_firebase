@@ -22,6 +22,7 @@ class _QuoteListState extends State<QuoteList> {
       itemBuilder: (context,index){
         return QuoteTile(quote: quotes[index]);
       },
+      
     );
   }
 }

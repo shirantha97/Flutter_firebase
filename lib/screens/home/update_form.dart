@@ -13,8 +13,8 @@ class UpdateForm extends StatefulWidget {
 class _UpdateFormState extends State<UpdateForm> {
 
   final _formKey = GlobalKey<FormState>();
-  String _currentQuote = '';
-  String _currentAuthor = '';
+  String _currentQuote;
+  String _currentAuthor;
   bool _autoValidate = false;
 
   @override
@@ -33,10 +33,34 @@ class _UpdateFormState extends State<UpdateForm> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 20.0,),
-              Text(
-                'Update your Quotes',
-                style: TextStyle(fontSize: 18.0),
+              Flex(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                direction: Axis.horizontal,
+                textBaseline: TextBaseline.ideographic,
+                children: <Widget>[
+                  // Text(
+                  //   'Update Quotes',
+                  //   style: TextStyle(fontSize: 18.0),
+                  // ),
+                  FlatButton.icon(
+                    icon: Icon(Icons.delete),
+                    onPressed: ()async{
+                      await DatabaseService(uid:user.uid).deleteUserData();
+                      Navigator.pop(context);
+                    }, 
+                    label:Text("Delete") 
+                  ),
+                ],
               ),
+              // Text(
+              //   'Update your Quotes',
+              //   style: TextStyle(fontSize: 18.0),
+              // ),
+              // FlatButton.icon(
+              //   icon: Icon(Icons.delete),
+              //   onPressed: null, 
+              //   label:Text("Delete") 
+              // ),
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: textInputDecoration,
