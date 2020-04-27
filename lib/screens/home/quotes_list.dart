@@ -12,7 +12,7 @@ class QuoteList extends StatefulWidget {
 class _QuoteListState extends State<QuoteList> {
   @override
   Widget build(BuildContext context) {
-    final quotes = Provider.of<List<Quotes>>(context);
+    final quotes = Provider.of<List<Quotes>>(context) ?? [];
     // quotes.forEach((quote) {
     //   print(quote.quote);
     //   print(quote.author);

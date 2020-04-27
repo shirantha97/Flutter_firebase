@@ -1,5 +1,9 @@
+import 'package:brew_crew/screens/models/user.dart';
+import 'package:brew_crew/screens/services/database.dart';
+import 'package:brew_crew/shared/load.dart';
 import 'package:flutter/material.dart';
 import 'package:brew_crew/shared/constant.dart';
+import 'package:provider/provider.dart';
 
 class UpdateForm extends StatefulWidget {
   @override
@@ -7,6 +11,7 @@ class UpdateForm extends StatefulWidget {
 }
 
 class _UpdateFormState extends State<UpdateForm> {
+
   final _formKey = GlobalKey<FormState>();
   String _currentQuote = '';
   String _currentAuthor = '';
@@ -14,108 +19,68 @@ class _UpdateFormState extends State<UpdateForm> {
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-        initialChildSize: 0.8,
-        minChildSize: 0.6,
-        maxChildSize: 1.0,
-        expand: true,
-        builder: (context, scrollController) {
-          return SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              autovalidate: _autoValidate,
-              child: Column(
-                children: <Widget>[
-                  Text("Enter quotes", style: TextStyle(fontSize: 20.0)),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  TextFormField(
-                    decoration: textInputDecoration,
-                    validator: (val) =>
-                        val.isEmpty ? 'Please enter a quote' : null,
-                    onChanged: (val) {
-                      setState(() {
-                        _currentQuote = val;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  TextFormField(
-                    decoration: textInputDecoration,
-                    validator: (val) =>
-                        val.isEmpty ? 'Please enter the author' : null,
-                    onChanged: (val) {
-                      setState(() {
-                        _currentAuthor = val;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  RaisedButton(
-                      color: Colors.brown[300],
-                      child: Text(
-                        'Update',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if(!_formKey.currentState.validate()){
-                          setState(() {
-                            _autoValidate = true;
-                          });
-                        }
-                        print(_currentQuote);
-                      })
-                ],
+
+    User user = Provider.of<User>(context);
+
+    return StreamBuilder<UserData>(
+      stream: DatabaseService(uid: user.uid).userData,
+      builder: (context, snapshot) {
+        if(snapshot.hasData){
+          UserData userData = snapshot.data;
+          return Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 20.0,),
+              Text(
+                'Update your Quotes',
+                style: TextStyle(fontSize: 18.0),
               ),
-            ),
-          );
-        });
-    // return Form(
-    //   key: _formKey,
-    //   child: Column(
-    //     children: <Widget>[
-    //       Text(
-    //         'Update your brew settings.',
-    //         style: TextStyle(fontSize: 18.0),
-    //       ),
-    //       SizedBox(height: 20.0),
-    //       TextFormField(
-    //         decoration: textInputDecoration,
-    //         validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-    //         onChanged: (val) => setState(() => _currentName = val),
-    //       ),
-    //       SizedBox(height: 10.0),
-    //       DropdownButtonFormField(
-    //         value: _currentSugars ?? '0',
-    //         decoration: textInputDecoration,
-    //         items: sugars.map((sugar) {
-    //           return DropdownMenuItem(
-    //             value: sugar,
-    //             child: Text('$sugar sugars'),
-    //           );
-    //         }).toList(),
-    //         onChanged: (val) => setState(() => _currentSugars = val ),
-    //       ),
-    //       SizedBox(height: 10.0),
-    //       RaisedButton(
-    //         color: Colors.pink[400],
-    //         child: Text(
-    //           'Update',
-    //           style: TextStyle(color: Colors.white),
-    //         ),
-    //         onPressed: () async {
-    //           print(_currentName);
-    //           print(_currentSugars);
-    //           print(_currentStrength);
-    //         }
-    //       ),
-    //     ],
-    //   ),
-    // );
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: textInputDecoration,
+                initialValue: userData.quote,
+                validator: (val) => val.isEmpty ? 'Please enter a quote' : null,
+                onChanged: (val) => setState(() => _currentQuote = val),
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: textInputDecoration,
+                initialValue: userData.author,
+                validator: (val) => val.isEmpty ? 'Please enter author' : null,
+                onChanged: (val) => setState(() => _currentAuthor = val),
+              ),
+              SizedBox(height: 10.0),
+              RaisedButton(
+                color: Colors.brown[200],
+                child: Text(
+                  'Update',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () async {
+                  if(_formKey.currentState.validate()){
+                    await DatabaseService(uid: user.uid).updateUserData(
+                      _currentQuote ?? userData.quote , 
+                      _currentAuthor ?? userData.author
+                    );
+                    Navigator.pop(context);
+                  }else{
+                    setState(() {
+                      _autoValidate = true;
+                    });
+                  }            
+                }
+              ),
+            ],
+          ),
+        );
+        }else{
+          Load();
+        }
+        return Container();
+      }
+    
+    );
   }
 }

@@ -11,17 +11,21 @@ class DatabaseService {
   Future updateUserData(String quote, String author) async{
     return await quotesCollection.document(uid).setData(
       {
-        quote : quote,
-        author : author
+        'quote' : quote,
+        'author' : author
       }
     );
+  }
+
+  Future deleteUserData() async{
+    return await quotesCollection.document(uid).delete();
   }
 
   List<Quotes> _quoteListfromSnapshot(QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
         return Quotes(
-          quote: doc.data['newQuote'] ?? '',
-          author: doc.data['newAuthor'] ?? ''
+          quote: doc.data['quote'] ?? '',
+          author: doc.data['author'] ?? ''
         );
       }
     ).toList();
@@ -30,8 +34,8 @@ class DatabaseService {
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot){
     return UserData(
       uid: uid,
-      quote: snapshot.data['newQoute'],
-      author: snapshot.data['newAuthor']
+      quote: snapshot.data['quote'],
+      author: snapshot.data['author']
     );
   }
 
