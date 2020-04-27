@@ -8,8 +8,9 @@ class UpdateForm extends StatefulWidget {
 
 class _UpdateFormState extends State<UpdateForm> {
   final _formKey = GlobalKey<FormState>();
-  String _currentQuote;
-  String _currentAuthor;
+  String _currentQuote = '';
+  String _currentAuthor = '';
+  bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,12 @@ class _UpdateFormState extends State<UpdateForm> {
         initialChildSize: 0.8,
         minChildSize: 0.6,
         maxChildSize: 1.0,
+        expand: true,
         builder: (context, scrollController) {
           return SingleChildScrollView(
             child: Form(
               key: _formKey,
+              autovalidate: _autoValidate,
               child: Column(
                 children: <Widget>[
                   Text("Enter quotes", style: TextStyle(fontSize: 20.0)),
@@ -59,7 +62,14 @@ class _UpdateFormState extends State<UpdateForm> {
                         'Update',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () async {})
+                      onPressed: () async {
+                        if(!_formKey.currentState.validate()){
+                          setState(() {
+                            _autoValidate = true;
+                          });
+                        }
+                        print(_currentQuote);
+                      })
                 ],
               ),
             ),

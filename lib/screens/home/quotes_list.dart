@@ -13,10 +13,10 @@ class _QuoteListState extends State<QuoteList> {
   @override
   Widget build(BuildContext context) {
     final quotes = Provider.of<List<Quotes>>(context);
-    quotes.forEach((quote) {
-      print(quote.quote);
-      print(quote.author);
-    });
+    // quotes.forEach((quote) {
+    //   print(quote.quote);
+    //   print(quote.author);
+    // });
     return ListView.builder(
       itemCount: quotes.length,
       itemBuilder: (context,index){
