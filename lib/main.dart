@@ -1,3 +1,5 @@
+import 'package:brew_crew/screens/home/author_list.dart';
+import 'package:brew_crew/screens/home/quotes_list.dart';
 import 'package:brew_crew/screens/models/user.dart';
 import 'package:brew_crew/screens/services/auth.dart';
 import 'package:brew_crew/screens/wrapper.dart';
@@ -14,6 +16,10 @@ class MyApp extends StatelessWidget {
         value: AuthService().user,
         child: MaterialApp(
         home: Wrapper(),
+        routes: <String, WidgetBuilder>{
+          '/quotes': (context) => QuoteList(),
+          '/authors': (context) => AuthorList()
+        },
       ),
     );
   }

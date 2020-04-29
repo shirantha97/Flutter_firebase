@@ -6,6 +6,7 @@ class DatabaseService {
   final String uid;
   final CollectionReference quotesCollection =  Firestore.instance.collection('quotes');
 
+
   DatabaseService({this.uid});
 
   Future updateUserData(String quote, String author) async{
@@ -26,11 +27,19 @@ class DatabaseService {
     );
   }
 
+  Future getData() async{
+    QuerySnapshot snapshots =  await quotesCollection.getDocuments();
+    quoteListfromSnapshot(snapshots);
+    return  quoteListfromSnapshot(snapshots);
+  }
+
+ 
+
   Future deleteUserData() async{
     return await quotesCollection.document(uid).delete();
   }
 
-  List<Quotes> _quoteListfromSnapshot(QuerySnapshot snapshot){
+  List<Quotes> quoteListfromSnapshot(QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
         return Quotes(
           quote: doc.data['quote'] ?? '',
@@ -50,7 +59,7 @@ class DatabaseService {
 
   //stream to collect quotes
   Stream<List<Quotes>> get quotes{
-    return quotesCollection.snapshots().map(_quoteListfromSnapshot);
+    return quotesCollection.snapshots().map(quoteListfromSnapshot);
   }
 
   Stream<UserData> get userData {
